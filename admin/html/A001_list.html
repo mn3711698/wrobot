@@ -1,0 +1,846 @@
+{% extends "list.html" %}
+{% block topSearch %}
+{% endblock %}
+{% block mdiv %}
+<div >
+{% endblock %}
+
+{% block mGrid %}
+<div class="col-sm-12">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label class="col-sm-12">
+                                    <font  style="font-size:20px">说明:</font>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12"><!--这里是日志，需要刷新-->
+                        <div class="panel-body"  >
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <b>交易标的(建议以下标的):</b><br>
+                                ETH-USDT-SWAP(U本位)<br>
+                                ETH-USD-SWAP(币本位)<br>
+                                BTC-USDT-SWAP(U本位)<br>
+                                BTC-USD-SWAP(币本位)<br>
+
+                                </div>
+                                <div class="col-sm-12">
+                                    <b>时间周期(建议5分钟):</b><br>
+                                    5分钟：策略会获取交易所5分钟的K线进行计算策略信号<br>
+                                10分钟：策略会获取交易所10分钟的K线进行计算策略信号<br>
+                                15分钟：策略会获取交易所15分钟的K线进行计算策略信号<br>
+                                30分钟：策略会获取交易所30分钟的K线进行计算策略信号<br>
+                                </div>
+                                <div class="col-sm-12">
+                                    <b>策略计算原理:</b><br>
+                                    策略会根据上边的时间周期，获取对应周期一段时间内的K线，然后根据多条K线进行计算，得出开多，开空，平多，平空等信号，进行相应的处理
+                                </div>
+                                <div class="col-sm-12">
+                                    <b>止盈止损:</b><br>
+                                    当策略没有信号时，就会根据填写的数值进行计算，判断是否需要进行止盈止损处理
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-9">
+                <div class="row">
+                     <div class="col-sm-12">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <label class="col-sm-12">
+                                                    <font  style="font-size:20px">交易列表</font>
+
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                <div class="col-sm-12">
+                                    <div class="col-sm-1" style="padding-top: 10px;">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <label class="col-sm-12">
+                                                    <span style="vertical-align: text-bottom;">
+                                                        <button class="btn btn-xs btn-success" type="button" onclick="add_r()">
+                                                            添加交易对
+                                                        </button>
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-11" style="padding-top: 10px;">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <label class="col-sm-12">
+                                                    <span style="margin-left:100px;vertical-align: text-bottom;">
+                                                        <button class="btn btn-xs btn-warning" type="button" onclick="all_delete()">
+                                                            删除交易对
+                                                        </button>&emsp;(注意：只可删除已清仓的交易对)
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <table class="table-bordered">
+                                        <tbody>
+                                            <thead>
+                                                <tr style="background-color:#e5e5e5" bgcolor="#ffffff">
+                                                    <th width="" style="text-align:center;"><input type="checkbox" value=""></th>
+                                                    {%for n in NL%}
+                                                    <th style="text-align:center;">{{n[0]}}</th>
+                                                    {%endfor%}
+                                                    <th style="text-align:center;width:120px;">操作</th>
+                                                </tr>
+                                            </thead>
+                                            {% for row in dataList %}
+                                            <tr bgcolor="#ffffff">
+                                                <td style="text-align:center;"><input type="checkbox" name="item_id" value="{{row[0]}}"></td>
+                                                {% for e in row[1:-1] %}
+                                                <td style="text-align:center;">{{e}}</td>
+
+                                                {% endfor %}
+                                                <td style="text-align:center;width:120px;">
+                                                    {% if lR[2] == '' %}
+                                                        {% if row[-1] in  (0,5)  %}
+                                                        <a class="btn btn-xs btn-primary"  onclick="run_r('{{row[0]}}')">运行</a>
+                                                        {%endif%}
+                                                        {% if row[-1] == 2 %}
+                                                        <a class="btn btn-xs btn-danger"  onclick="pause_r('{{row[0]}}')">停止</a>
+                                                        {%endif%}
+                                                        {% if row[-1] == 2 %}
+                                                        <a class="btn btn-xs btn-danger"  onclick="clean_r('{{row[0]}}')">平仓</a>
+                                                        {%endif%}
+                                                        {% if row[-1] in (0,5) %}
+                                                        <a class="btn btn-xs btn-warning"  onclick="main_delete('{{row[0]}}');" >删除</a>
+                                                        {% endif %}
+                                                    <a class="btn btn-xs btn-info"  onclick="edit_r('{{row[0]}}')">修改</a>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    {{html_pager}}
+                                </div>
+                                </div>
+                            <div class="row">
+                                {%if iTotal_length>0%}
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <label class="col-sm-12">
+                                                    <span >
+                                                        <button class="btn btn-ms btn-primary" type="button" onclick="run_all()">
+                                                            全部运行
+                                                        </button>
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <label class="col-sm-12">
+                                                    <span >
+                                                        <button class="btn btn-ms btn-danger" type="button" onclick="pasue_all()">
+                                                            全部停止
+                                                        </button>
+                                                    </span>
+
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <label class="col-sm-12">
+                                                    <span >
+                                                        <button class="btn btn-ms btn-info" type="button" onclick="clean_all()">
+                                                            全部持仓全平
+                                                        </button>
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {%endif%}
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <font color="red" size="5px"><b>如只要设定的止盈止损起作用，不让策略的平仓信号生效，可以在修改过进行禁用</b></font><br>
+                                    <br>
+
+                                </div>
+                                <div class="col-sm-12">
+                                    <b>多级动态止盈:</b><br>
+                                    当策略没有信号时，根据下方计算判断是否需要进行止盈处理<br>
+                                    多单：当“收益”大于"收益1"并且“收益”小于"收益2"并且“最高价”大于(“最新价”乘以(1+“回撤1”))时平仓<br>
+                                    多单：当“收益”大于"收益2"并且“收益”小于"收益3"并且“最高价”大于(“最新价”乘以(1+“回撤2”))时平仓<br>
+                                    多单：当“收益”大于"收益3"并且“收益”小于"收益4"并且“最高价”大于(“最新价”乘以(1+“回撤3”))时平仓<br>
+                                    多单：当“收益”大于"收益4"并且“收益”小于"收益5"并且“最高价”大于(“最新价”乘以(1+“回撤4”))时平仓<br>
+                                    多单：当“收益”大于"收益5"并且“收益”小于"收益6"并且“最高价”大于(“最新价”乘以(1+“回撤5”))时平仓<br>
+                                    多单：当“收益”大于"收益6"并且“最高价”大于(“最新价”乘以(1+“回撤6”))时平仓<br>
+
+                                    空单：当“收益”大于"收益1"并且“收益”小于"收益2"并且“最低价”小于(“最新价”乘以(1-“回撤1”))时平仓<br>
+                                    空单：当“收益”大于"收益2"并且“收益”小于"收益3"并且“最低价”小于(“最新价”乘以(1-“回撤2”))时平仓<br>
+                                    空单：当“收益”大于"收益3"并且“收益”小于"收益4"并且“最低价”小于(“最新价”乘以(1-“回撤3”))时平仓<br>
+                                    空单：当“收益”大于"收益4"并且“收益”小于"收益5"并且“最低价”小于(“最新价”乘以(1-“回撤4”))时平仓<br>
+                                    空单：当“收益”大于"收益5"并且“收益”小于"收益6"并且“最低价”小于(“最新价”乘以(1-“回撤5”))时平仓<br>
+                                    空单：当“收益”大于"收益6"并且“最低价”小于(“最新价”乘以(1-“回撤6”))时平仓
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+
+                </div>
+             </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block page_script %}
+
+<script>
+function add_r(){
+    itemvip=''
+    $.ajax({
+        url:sUrl+"&part=all_row",
+        async:false,
+        success: function(data){
+            //console.log(data)
+            if (data.code=='0'){
+                itemvip=data.data
+            }
+        }
+    });
+    if (itemvip==''){
+         layer.msg('数据更新中，请等待！')
+         return false;
+    }
+    bourse_users=itemvip.bourse_users
+    lenl=bourse_users.length
+    if (lenl==0){
+        layer.msg('请您先在“我的帐户”添加“交易帐户”！')
+        return false;
+    }
+
+	content_html='<form id="tfs">';
+	content_html+='<br><div class="col-sm-11">';
+    content_html+='<label class="col-sm-4 control-label"><b style="color:#333333;">帐户:<font color="red">*</font></b></label>';
+    content_html+=' <div class="col-sm-8">';
+    content_html+='<select name="bu_id"  class="form-control" >';
+
+    for (var i=0;i<lenl;i++){
+        content_html+='<option value="'+bourse_users[i][0]+'">'+bourse_users[i][1]+'</option>';
+	}
+    content_html+='</select></div></div><br><br>';
+
+    content_html+='<div class="col-sm-11">';
+    content_html+='<label class="col-sm-4 control-label"><b style="color:#333333;">时间周期:<font color="red">*</font></b></label>';
+    content_html+=' <div class="col-sm-8">';
+    content_html+='<select name="t_id"  class="form-control" >';
+    content_html+='<option value="300">5分钟</option>';
+	content_html+='<option value="600">10分钟</option>';
+	content_html+='<option value="900">15分钟</option>';
+	content_html+='<option value="1800">30分钟</option>';
+    content_html+='</select></div></div><br><br>';
+
+    content_html+='<div class="col-sm-11">';
+    content_html+='<label class="col-sm-4 control-label"><b style="color:#333333;">交易标的:<font color="red">*</font></b></label>';
+    content_html+=' <div class="col-sm-8">';
+    content_html+='<input type="text" class="form-control"  name="symbol" value=""/>';
+    content_html+='</div></div><br><br>';
+
+    content_html+='<div class="col-sm-11">';
+    content_html+='<label class="col-sm-4 control-label"><b style="color:#333333;">每次交易数量/张:<font color="red">建议1，可随时修改</font></b></label>';
+    content_html+=' <div class="col-sm-8">';
+    content_html+=' <input type="number" class="form-control"  name="deal_num" value="1"/>';
+    content_html+='</div></div><br><br>';
+
+    content_html+='<div class="col-sm-11">';
+    content_html+='<label class="col-sm-4 control-label"><b style="color:#333333;">止盈处理(可随时修改):<font color="red">*</font></b></label>';
+    content_html+=' <div class="col-sm-8">';
+    content_html+='<select name="stop_pnl"  class="form-control" >';
+    content_html+='<option value="0">无</option>';
+    content_html+='<option value="1">获利止盈</option>';
+    content_html+='<option value="2">开仓比止盈</option>';
+    content_html+='<option value="3">获利回撤止盈</option>';
+    content_html+='<option value="4">开仓比回撤止盈</option>';
+    content_html+='<option value="5">价格比止盈</option>';
+    content_html+='<option value="6">动态止盈</option>';
+    content_html+='<option value="7">多级动态止盈</option>';
+    content_html+='</select></div></div><br><br>';
+
+    content_html+='<div class="col-sm-12" style="font-size:1px;"><label class="col-sm-12 control-label"><font color="red">';
+    content_html+='止盈处理说明:“无”就是让机器人自动处理(策略有平多平空信号规则);</br>';
+    content_html+='“获利止盈”就是当收益大于下方填写的“止盈量”时在无策略信号下就平仓;</br>';
+    content_html+='“开仓比止盈”就是当“开仓比”大于下方填写的“止盈量”时在无策略信号下就平仓，多单“开仓比”=(“最新价”-"开仓价")/"开仓价",空单“开仓比”=("开仓价"-“最新价”)/"开仓价"</br>';
+    content_html+='“获利回撤止盈”就是记录的“最高收益”，当收益回撤时，(“最高收益”-“当前收益”)/“最高收益”大于下方填写的“止盈量”在无策略信号下就平仓;</br>';
+    content_html+='“开仓比回撤止盈”就是记录的“最高价”或“最低价”，当价格回撤时多单是(“最高价”-“最新价”)/“最高价”，空单是(“最新价”-“最低价”)/“最新价”，大于下方填写的“止盈量”在无策略信号下就平仓;</br>';
+    content_html+='“价格比止盈”就是记录的“最高价”或“最低价”，多单是(“最新价”-“开仓价”)/(“最高价”-“开仓价”)，空单是(“开仓介”-“最新价”)/(“开仓介”-“最低价”)，大于下方填写的“止盈量”在无策略信号下就平仓;</br>';
+    content_html+='“动态止盈”就是记录的“最高价”或“最低价”，多单是当“开仓价”*(1+"参考量")<“现价”并且“现价”*(1+"止盈量")<“最高价”会平仓，空单是“开仓介”*(1-“参考量”)>"现价"并且“现价”*(1-"止盈量")>“最低价”会平仓;</br>';
+    content_html+='“多级动态止盈”内容多，请看当前网页说明</br>';
+    content_html+='</font></label></div><br><br>';
+
+    content_html+='<div class="col-sm-12">';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">参考量(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-3">';
+    content_html+=' <input type="text" class="form-control"  name="pnl_tag" value="0.03"/></div>';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">止盈量(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-3">';
+    content_html+=' <input type="text" class="form-control"  name="pnl_num" value="0.3"/>';
+    content_html+='</div><br><br>';
+
+    content_html+='<div class="col-sm-12">';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">收益1(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-3">';
+    content_html+=' <input type="text" class="form-control"  name="sy1" value="0.3"/></div>';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">回撤1(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-3">';
+    content_html+=' <input type="text" class="form-control"  name="ht1" value="0.3"/></div>';
+    content_html+='</div><br><br>';
+
+    content_html+='<div class="col-sm-12">';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">收益2(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-3">';
+    content_html+=' <input type="text" class="form-control"  name="sy2" value="0.3"/></div>';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">回撤2(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-3">';
+    content_html+=' <input type="text" class="form-control"  name="ht2" value="0.3"/></div>';
+    content_html+='</div><br><br>';
+
+    content_html+='<div class="col-sm-12">';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">收益3(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-3">';
+    content_html+=' <input type="text" class="form-control"  name="sy3" value="0.3"/></div>';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">回撤3(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-3">';
+    content_html+=' <input type="text" class="form-control"  name="ht3" value="0.3"/></div>';
+    content_html+='</div><br><br>';
+
+    content_html+='<div class="col-sm-12">';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">收益4(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-3">';
+    content_html+=' <input type="text" class="form-control"  name="sy4" value="0.3"/></div>';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">回撤4(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-3">';
+    content_html+=' <input type="text" class="form-control"  name="ht4" value="0.3"/></div>';
+    content_html+='</div><br><br>';
+
+    content_html+='<div class="col-sm-12">';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">收益5(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-3">';
+    content_html+=' <input type="text" class="form-control"  name="sy5" value="0.3"/></div>';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">回撤5(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-3">';
+    content_html+=' <input type="text" class="form-control"  name="ht5" value="0.3"/></div>';
+    content_html+='</div><br><br>';
+
+    content_html+='<div class="col-sm-12">';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">收益6(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-3">';
+    content_html+=' <input type="text" class="form-control"  name="sy6" value="0.3"/></div>';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">回撤6(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-3">';
+    content_html+=' <input type="text" class="form-control"  name="ht6" value="0.3"/></div>';
+    content_html+='</div><br><br><br>';
+
+    content_html+='<div class="col-sm-11">';
+    content_html+='<label class="col-sm-4 control-label"><b style="color:#333333;">止损处理(可随时修改):<font color="red">*</font></b></label>';
+    content_html+=' <div class="col-sm-8">';
+    content_html+='<select name="stop_kx"  class="form-control" >';
+    content_html+='<option value="0">无</option>';
+    content_html+='<option value="1">亏损止损</option>';
+    content_html+='<option value="2">开仓比止损</option>';
+    content_html+='<option value="3">现价止损</option>';
+    content_html+='<option value="4">开仓价止损</option>';
+    content_html+='</select></div></div><br><br>';
+    content_html+='<div class="col-sm-12" style="font-size:1px;"><label class="col-sm-12 control-label"><font color="red">';
+    content_html+='止损处理说明:“无”就是让机器人自动处理(策略有平多平空信号规则);</br>';
+    content_html+='“亏损止损”就是当收益(负数)小于下方填写的“止损量”(填写的正数会系统会转换为负数)时在无策略信号下就平仓;</br>';
+    content_html+='“开仓比止损”就是当“开仓比”大于下方填写的“止损量”时在无策略信号下就平仓，多单亏损“开仓比”=("开仓价"-“最新价”)/"开仓价",空单亏损“开仓比”=(“最新价”-"开仓价")/"开仓价"</br>';
+    content_html+='“现价止损”就是多单： “现价”<="开仓价"X（1-"止损量"）,空单：“现价”>="开仓价"X（1+"止损量"）</br>';
+    content_html+='“开仓价止损”就是多单： “现价”<="开仓价"-"止损量",空单：“现价”>="开仓价"+"止损量"</br>';
+    content_html+='</font></label></div><br><br>';
+    content_html+='<div class="col-sm-11">';
+    content_html+='<label class="col-sm-4 control-label"><b style="color:#333333;">止损量(请填写正数):<font color="red">(可随时修改)</font></b></label>';
+    content_html+=' <div class="col-sm-8">';
+    content_html+=' <input type="text" class="form-control"  name="kx_num" value="0.01"/>';
+    content_html+='</div></div><br><br>';
+    content_html+='</form>';
+
+    layer.open({
+        type: 1,
+        skin: 'layui-layer-rim', //加上边框
+        area: ['90rem', '75rem;'], //宽高
+        content: content_html,
+        title: "添加交易对",
+        btn: ['确认添加']
+        ,yes: function(index, layero){
+
+            var deal_num = $('input[name=deal_num]').val();
+            if(deal_num==''){
+                layer.msg('请填写交易数量/张！')
+                return false;
+            }
+           layer.load()
+           var formss = new FormData(document.getElementById("tfs"));
+           $.ajax({
+                url:sUrl+"&part=save_deal",
+                type:"post",
+                data:formss,
+                processData:false,
+                contentType:false,
+                success:function(data){
+                    layer.closeAll()
+                    if (data.code=='0'){
+                        layer.msg(data.MSG);
+                        setTimeout("location.reload()", 3000);
+                    }else{
+                        layer.msg(data.MSG);
+                    }
+                }
+            });
+         }
+    });
+}
+
+
+</script>
+<script>
+function edit_r(id){
+    itemvip=''
+    $.ajax({
+        url:sUrl+"&part=edit_row&pk="+id,
+        async:false,
+        success: function(data){
+            //console.log(data)
+            if (data.code=='0'){
+                itemvip=data.data
+            }
+        }
+    });
+    if (itemvip==''){
+         layer.msg('数据更新中，请等待！')
+         return false;
+    }
+	content_html='<form id="tfs">';
+	content_html+='<br><div class="col-sm-11"><input type="hidden"   name="id" value="'+id+'"/>';
+    content_html+='<label class="col-sm-4 control-label"><b style="color:#333333;">每次交易数量/张:<font color="red">建议1，可随时修改</font></b></label>';
+    content_html+=' <div class="col-sm-8">';
+    content_html+=' <input type="number" class="form-control"  name="deal_num" value="'+itemvip.deal_num+'"/>';
+    content_html+='</div></div><br><br>';
+
+    content_html+='<div class="col-sm-11">';
+    content_html+='<label class="col-sm-4 control-label"><b style="color:#333333;">止盈处理(可随时修改):<font color="red">*</font></b></label>';
+    content_html+=' <div class="col-sm-8">';
+    content_html+='<select name="stop_pnl"  class="form-control" >';
+    content_html+='<option value="0"';
+    if(itemvip.stop_pnl==0){
+        content_html+='selected="selected"';
+    }
+    content_html+='>无</option>';
+    content_html+='<option value="1"';
+    if(itemvip.stop_pnl==1){
+        content_html+='selected="selected"';
+    }
+    content_html+='>获利止盈</option>';
+    content_html+='<option value="2"';
+    if(itemvip.stop_pnl==2){
+        content_html+='selected="selected"';
+    }
+    content_html+='>开仓比止盈</option>';
+    content_html+='<option value="3"';
+    if(itemvip.stop_pnl==3){
+        content_html+='selected="selected"';
+    }
+    content_html+='>获利回撤止盈</option>';
+    content_html+='<option value="4"';
+    if(itemvip.stop_pnl==4){
+        content_html+='selected="selected"';
+    }
+    content_html+='>开仓比回撤止盈</option>';
+    content_html+='<option value="5"';
+    if(itemvip.stop_pnl==5){
+        content_html+='selected="selected"';
+    }
+    content_html+='>价格比止盈</option>';
+    content_html+='<option value="6"';
+    if(itemvip.stop_pnl==6){
+        content_html+='selected="selected"';
+    }
+    content_html+='>动态止盈</option>';
+    content_html+='<option value="7"';
+    if(itemvip.stop_pnl==7){
+        content_html+='selected="selected"';
+    }
+    content_html+='>多级动态止盈</option>';
+    content_html+='</select></div></div><br><br>';
+    content_html+='<div class="col-sm-12" style="font-size:1px;"><label class="col-sm-12 control-label"><font color="red" >';
+    content_html+='止盈处理说明:“无”就是让机器人自动处理(策略有平多平空信号规则);</br>';
+    content_html+='“获利止盈”就是当收益大于下方填写的“止盈量”时在无策略信号下就平仓;</br>';
+    content_html+='“开仓比止盈”就是当“开仓比”大于下方填写的“止盈量”时在无策略信号下就平仓，多单“开仓比”=(“最新价”-"开仓价")/"开仓价",空单“开仓比”=("开仓价"-“最新价”)/"开仓价"</br>';
+    content_html+='“获利回撤止盈”就是记录的“最高收益”，当收益回撤时，(“最高收益”-“当前收益”)/“最高收益”大于下方填写的“止盈量”在无策略信号下就平仓;</br>';
+    content_html+='“开仓比回撤止盈”就是记录的“最高价”或“最低价”，当价格回撤时多单是(“最高价”-“最新价”)/“最新价”，空单是(“最新价”-“最低价”)/“最新价”，大于下方填写的“止盈量”在无策略信号下就平仓;</br>';
+    content_html+='“价格比止盈”就是记录的“最高价”或“最低价”，多单是(“最新价”-“开仓价”)/(“最高价”-“开仓价”)，空单是(“开仓介”-“最新价”)/(“开仓介”-“最低价”)，大于下方填写的“止盈量”在无策略信号下就平仓;</br>';
+    content_html+='“动态止盈”就是记录的“最高价”或“最低价”，多单是当“开仓价”*(1+"参考量")<“现价”并且“现价”*(1+"止盈量")<“最高价”会平仓，空单是“开仓介”*(1-“参考量”)>"现价"并且“现价”*(1-"止盈量")>“最低价”会平仓;</br>';
+    content_html+='“多级动态止盈”内容多，请看当前网页说明</br>';
+    content_html+='</font></label></div><br>';
+
+    content_html+='<div class="col-sm-12">';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">参考量(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-3">';
+    content_html+=' <input type="text" class="form-control"  name="pnl_tag" value="'+itemvip.pnl_tag+'"/></div>';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">止盈量(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-3">';
+    content_html+=' <input type="text" class="form-control"  name="pnl_num" value="'+itemvip.pnl_num+'"/>';
+    content_html+='</div><br><br>';
+
+    content_html+='<div class="col-sm-12">';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">收益1(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-3">';
+    content_html+=' <input type="text" class="form-control"  name="sy1" value="'+itemvip.sy1+'"/></div>';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">回撤1(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-3">';
+    content_html+=' <input type="text" class="form-control"  name="ht1" value="'+itemvip.ht1+'"/></div>';
+    content_html+='</div><br><br>';
+
+    content_html+='<div class="col-sm-12">';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">收益2(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-3">';
+    content_html+=' <input type="text" class="form-control"  name="sy2" value="'+itemvip.sy2+'"/></div>';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">回撤2(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-3">';
+    content_html+=' <input type="text" class="form-control"  name="ht2" value="'+itemvip.ht2+'"/></div>';
+    content_html+='</div><br><br>';
+
+    content_html+='<div class="col-sm-12">';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">收益3(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-3">';
+    content_html+=' <input type="text" class="form-control"  name="sy3" value="'+itemvip.sy3+'"/></div>';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">回撤3(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-3">';
+    content_html+=' <input type="text" class="form-control"  name="ht3" value="'+itemvip.ht3+'"/></div>';
+    content_html+='</div><br><br>';
+
+    content_html+='<div class="col-sm-12">';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">收益4(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-3">';
+    content_html+=' <input type="text" class="form-control"  name="sy4" value="'+itemvip.sy4+'"/></div>';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">回撤4(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-3">';
+    content_html+=' <input type="text" class="form-control"  name="ht4" value="'+itemvip.ht4+'"/></div>';
+    content_html+='</div><br><br>';
+
+    content_html+='<div class="col-sm-12">';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">收益5(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-3">';
+    content_html+=' <input type="text" class="form-control"  name="sy5" value="'+itemvip.sy5+'"/></div>';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">回撤5(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-3">';
+    content_html+=' <input type="text" class="form-control"  name="ht5" value="'+itemvip.ht5+'"/></div>';
+    content_html+='</div><br><br>';
+
+    content_html+='<div class="col-sm-12">';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">收益6(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-3">';
+    content_html+=' <input type="text" class="form-control"  name="sy6" value="'+itemvip.sy6+'"/></div>';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">回撤6(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-3">';
+    content_html+=' <input type="text" class="form-control"  name="ht6" value="'+itemvip.ht6+'"/></div>';
+    content_html+='</div><br><br><br>';
+
+    content_html+='<div class="col-sm-11">';
+    content_html+='<label class="col-sm-4 control-label"><b style="color:#333333;">止损处理(可随时修改):<font color="red">*</font></b></label>';
+    content_html+=' <div class="col-sm-8">';
+    content_html+='<select name="stop_kx"  class="form-control" >';
+    content_html+='<option value="0"';
+    if(itemvip.stop_kx==0){
+        content_html+='selected="selected"';
+    }
+    content_html+='>无</option>';
+    content_html+='<option value="1"';
+    if(itemvip.stop_kx==1){
+        content_html+='selected="selected"';
+    }
+    content_html+='>亏损止损</option>';
+    content_html+='<option value="2"';
+    if(itemvip.stop_kx==2){
+        content_html+='selected="selected"';
+    }
+    content_html+='>开仓比止损</option>';
+    content_html+='<option value="3"';
+    if(itemvip.stop_kx==3){
+        content_html+='selected="selected"';
+    }
+    content_html+='>现价止损</option>';
+    content_html+='<option value="4"';
+    if(itemvip.stop_kx==4){
+        content_html+='selected="selected"';
+    }
+    content_html+='>开仓价止损</option>';
+    content_html+='</select></div></div><br><br>';
+    content_html+='<div class="col-sm-12" style="font-size:1px;"><label class="col-sm-12 control-label"><font color="red">';
+    content_html+='止损处理说明:“无”就是让机器人自动处理(策略有平多平空信号规则);</br>';
+    content_html+='“亏损止损”就是当收益(负数)小于下方填写的“止损量”(填写的正数会系统会转换为负数)时在无策略信号下就平仓;</br>';
+    content_html+='“开仓比止损”就是当“开仓比”大于下方填写的“止损量”时在无策略信号下就平仓，多单亏损“开仓比”=("开仓价"-“最新价”)/"开仓价",空单亏损“开仓比”=(“最新价”-"开仓价")/"开仓价"</br>';
+    content_html+='“现价止损”就是多单： “现价”<"开仓价"X（1-"止损量"）,空单：“现价”>"开仓价"X（1+"止损量"）</br>';
+    content_html+='“开仓价止损”就是多单： “现价”<"开仓价"-"止损量",空单：“现价”>"开仓价"+"止损量"</br>';
+    content_html+='</font></label></div><br>';
+    content_html+='<div class="col-sm-11">';
+    content_html+='<label class="col-sm-4 control-label"><b style="color:#333333;">止损量(请填写正数):<font color="red">(可随时修改)</font></b></label>';
+    content_html+=' <div class="col-sm-8">';
+    content_html+=' <input type="text" class="form-control"  name="kx_num" value="'+itemvip.kx_num+'"/>';
+    content_html+='</div></div><br>';
+    content_html+='<div class="col-sm-11">';
+    content_html+='<label class="col-sm-4 control-label"><b style="color:#333333;">策略平仓(可随时修改):</b></label>';
+    content_html+=' <div class="col-sm-8">';
+    content_html+='<select name="use_flag"  class="form-control" >';
+    content_html+='<option value="0"';
+    if(itemvip.use_flag==0){
+        content_html+='selected="selected"';
+    }
+    content_html+='>使用</option>';
+    content_html+='<option value="1"';
+    if(itemvip.use_flag==1){
+        content_html+='selected="selected"';
+    }
+    content_html+='>禁用</option>';
+    content_html+='</select></div></div><br><br>';
+    content_html+='</form>';
+
+    layer.open({
+        type: 1,
+        skin: 'layui-layer-rim', //加上边框
+        area: ['90rem;', '70rem;'], //宽高
+        content: content_html,
+        title: "修改交易对参数",
+        btn: ['确认修改']
+        ,yes: function(index, layero){
+
+            var deal_num = $('input[name=deal_num]').val();
+            if(deal_num==''){
+                layer.msg('请填写交易数量/张！')
+                return false;
+            }
+           layer.load()
+           var formss = new FormData(document.getElementById("tfs"));
+           $.ajax({
+                url:sUrl+"&part=updeal",
+                type:"post",
+                data:formss,
+                processData:false,
+                contentType:false,
+                success:function(data){
+                    layer.closeAll()
+                    if (data.code=='0'){
+                        layer.msg(data.MSG);
+                         setTimeout("location.reload()", 2000);
+                    }else{
+                        layer.msg(data.MSG);
+                    }
+                }
+            });
+         }
+    });
+}
+
+
+function all_delete(){
+  //主GRID的删除操作
+	layer.confirm('只能删除已停止的记录，你确信要删除记录吗？', {
+		btn: ['是','否'] //按钮
+	}, function(index,layero){
+	    layer.close(index);
+	    layer.load()
+
+		//$("input[name=part]").val('Alldelete');
+		//var viewid=$("input[name=viewid]").val();
+	    var form = new FormData(document.getElementById("frmMain"));
+        $.ajax({
+            url:sUrl+"&part=Alldelete",
+            type:"post",
+            data:form,
+            processData:false,
+            contentType:false,
+            success:function(data){
+                layer.closeAll();
+                if (data.code=='0'){
+                    layer.msg(data.MSG);
+                    setTimeout("location.reload()", 2000);
+                }else{
+                    layer.msg(data.MSG);
+                }
+            }
+        });
+
+	}, function(){
+		layer.closeAll();
+	});
+}
+
+function clean_all(){
+
+	layer.confirm('此操作将会市价全平，后续还会继续运行，你确信要持仓全平吗？', {
+		btn: ['是','否'] //按钮
+	}, function(index,layero){
+	    layer.close(index);
+	    layer.load()
+
+		//$("input[name=part]").val('Alldelete');
+		//var viewid=$("input[name=viewid]").val();
+	    var form = new FormData(document.getElementById("frmMain"));
+        $.ajax({
+            url:sUrl+"&part=clean_all",
+            type:"post",
+            data:form,
+            processData:false,
+            contentType:false,
+            success:function(data){
+                layer.closeAll();
+                if (data.code=='0'){
+                    layer.msg(data.MSG);
+                    setTimeout("location.reload()", 2000);
+                }else{
+                    layer.msg(data.MSG);
+                }
+            }
+        });
+
+	}, function(){
+		layer.closeAll();
+	});
+}
+
+function pasue_all(){
+
+	layer.confirm('此操作将会进行市价全后再停止，你确信要停止吗？', {
+		btn: ['是','否'] //按钮
+	}, function(index,layero){
+	    layer.close(index);
+	    layer.load()
+	    var form = new FormData(document.getElementById("frmMain"));
+        $.ajax({
+            url:sUrl+"&part=pasue_all",
+            type:"post",
+            data:form,
+            processData:false,
+            contentType:false,
+            success:function(data){
+                layer.closeAll();
+                if (data.code=='0'){
+                    layer.msg(data.MSG);
+                    setTimeout("location.reload()", 2000);
+                }else{
+                    layer.msg(data.MSG);
+                }
+            }
+        });
+
+	}, function(){
+		layer.closeAll();
+	});
+}
+
+function run_all(){
+
+	layer.confirm('你确信要运行吗？', {
+		btn: ['是','否'] //按钮
+	}, function(index,layero){
+	    layer.close(index);
+	    layer.load()
+
+	    var form = new FormData(document.getElementById("frmMain"));
+        $.ajax({
+            url:sUrl+"&part=run_all",
+            type:"post",
+            data:form,
+            processData:false,
+            contentType:false,
+            success:function(data){
+                layer.closeAll();
+                if (data.code=='0'){
+                    layer.msg(data.MSG);
+                    setTimeout("location.reload()", 2000);
+                }else{
+                    layer.msg(data.MSG);
+                }
+            }
+        });
+
+	}, function(){
+		layer.closeAll();
+	});
+}
+
+
+function pause_r(id){
+
+	$.ajax({
+        url:sUrl+"&part=pasue_r&pk="+id,
+        async:false,
+        success: function(data){
+            if (data.code=='0'){
+                layer.msg(data.MSG);
+                setTimeout("location.reload()", 2000);
+            }else{
+                layer.msg(data.MSG);
+            }
+        }
+    });
+}
+function clean_r(id){
+
+	$.ajax({
+        url:sUrl+"&part=clean_r&pk="+id,
+        async:false,
+        success: function(data){
+            if (data.code=='0'){
+                layer.msg(data.MSG);
+                setTimeout("location.reload()", 2000);
+            }else{
+                layer.msg(data.MSG);
+            }
+        }
+    });
+}
+
+function run_r(id){
+
+	$.ajax({
+        url:sUrl+"&part=run_r&pk="+id,
+        async:false,
+        success: function(data){
+            if (data.code=='0'){
+                layer.msg(data.MSG);
+                setTimeout("location.reload()", 2000);
+            }else{
+                layer.msg(data.MSG);
+            }
+        }
+    });
+}
+
+</script>
+{% endblock %}
+
+

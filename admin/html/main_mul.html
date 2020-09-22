@@ -1,0 +1,137 @@
+{% extends "index_new.html" %}
+{% block breadcrumb %}
+	{{breadcrumb}}
+{% endblock %}
+
+{% block contentpanel %}
+
+			<div class="main" style="width:98%;">
+					<div class="search" >
+						{{html_hidden}}
+						{% block topSearch %}
+						<table class="table table-bordered tb searchtbl">
+							<tbody>
+								<tr>
+									<th style="font-size:14px;">关键字</th>
+									<td width="230">
+										<div class="input-group">
+											<input type="text" class="form-control" name="qqid" value="{{qqid}}" />
+											<span class="input-group-btn">
+											<button class="btn btn-default" type="button" onclick="main_search()"><i class="fa fa-search"></i> 搜索</button>
+											</span>
+										</div>
+									</td>
+
+									<td style="text-align:right" width="">
+										<select name="orderbydir" id="orderbydir" class="form-control" onchange="this.form.pageNo.value=1;this.form.submit();">
+											<option value="ASC"{{' selected="selected"' if 'ASC' == orderbydir}}>顺序</option>
+											<option value="DESC"{{' selected="selected"' if 'DESC' == orderbydir}}>逆序</option>
+										</select>
+										<select style="margin-right:15px;" onchange="this.form.pageNo.value=1;this.form.submit();" class="form-control" name="orderby">
+											{%for od in orderbylist%}
+												<option value="{{od[0]}}"{{' selected="selected"' if '%s'%od[0] == orderby}}>{{od[1]}}</option>
+											{%endfor%}
+										</select>
+									</td>
+								</tr>
+								<tr class="search-submit">
+									<td colspan="3">
+										{% if lR[0] != '1' %}
+										<button type="button" class="btn btn-success btn-sm" onclick="main_add()"><i class="fa fa-plus"></i> 增加</button>
+										{% endif %}
+									</td>
+								 </tr>
+							</tbody>
+						</table>
+						{% endblock %}
+					</div>
+					<div style="padding:15px 0 15px 15px;">
+						{% block multabs %}
+						 <div class="ibox-title" style="height:55px; background-color: #fff;padding-top: 0;">
+							 <input type="hidden" name="multab" value="{{tab}}" />
+							<div class="row">
+								<ul class="nav nav-tabs">
+									{% for t in tab_data %}
+									<li role="presentation"{{' class="active"' if tab == loop.index|string}}><a href="{{currentUrl}}&tab={{loop.index}}">{{t}}</a></li>
+									{% endfor %}
+								</ul>
+							</div>
+						 </div>
+						 {% endblock %}
+						<div class="ibox-content" style="border:none;">
+
+							{% block mMul_Page_tabs %}{% if tab == '1' %}
+                                    {% block mMul_Page_1 %}
+                                        1111111111
+                                    {% endblock %}
+                                {% elif tab == '2' %}
+                                    {% block mMul_Page_2 %}
+                                      222222222222
+                                    {% endblock %}
+                                {% elif tab == '3' %}
+                                    {% block mMul_Page_3 %}
+                                       333333333333
+                                    {% endblock %}
+                                {% elif tab == '4' %}
+                                    {% block mMul_Page_4 %}
+                                       4444444444
+                                    {% endblock %}
+                                 {% elif tab == '5' %}
+                                    {% block mMul_Page_5 %}
+                                       5555555555
+                                    {% endblock %}
+                                 {% elif tab == '6' %}
+                                    {% block mMul_Page_6 %}
+                                       66666666666
+                                    {% endblock %}
+                                 {% elif tab == '7' %}
+                                    {% block mMul_Page_7 %}
+                                       77777777777
+                                    {% endblock %}
+                                 {% elif tab == '8' %}
+                                    {% block mMul_Page_8 %}
+                                      88888888888888888
+                                    {% endblock %}
+                                 {% elif tab == '9' %}
+                                    {% block mMul_Page_9 %}
+                                      999999999999999
+                                    {% endblock %}
+                                 {% elif tab == '10' %}
+                                    {% block mMul_Page_10 %}
+                                      101010
+                                    {% endblock %}
+                                 {% elif tab == '11' %}
+                                    {% block mMul_Page_11 %}
+                                      11  11  11
+                                    {% endblock %}
+                                 {% elif tab == '12' %}
+                                    {% block mMul_Page_12 %}
+                                      12  12
+                                    {% endblock %}
+                                 {% endif %}{% endblock %}
+						</div>
+
+
+						{% block html_pager %}{{html_pager}}{% endblock %}
+
+
+					</div>
+					{% block page_script %}{% endblock %}
+
+
+				<div id="global_show_div"></div>
+			</div>
+			<script>
+
+			    $(function(){
+			        $(".main").height($(window).height()-150);
+			    })
+
+			    $(window).resize(function(){
+			        $(".main").height($(window).height()-150);
+			    });
+			</script>
+{% endblock %}
+
+
+

@@ -1,0 +1,427 @@
+{% extends "local.html" %}
+{% block MUL_BTNS %}
+
+{% endblock %}
+{% block html_local %}
+<div class="col-sm-4">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <label class="col-sm-12">
+                            <font  style="font-size:20px">系统登录帐户</font>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <label class="col-sm-12">
+							<input  type="hidden"  value="" name="oldpassword" />
+							<input  type="hidden"  value="" name="password" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                 <table class="tb single-table">
+				<tbody>
+					<tr>
+						<th style="width:100px;">
+						    <label>手机号</label>
+						</th>
+						<td>
+						    <input type="text" class="form-control" value="{{info.login_id}}"  readonly="1"/>
+						</td>
+					</tr>
+                    {% if auth_flag == 1 %}
+					<tr>
+						<th style="width:100px;">
+						    <label>授权帐号</label>
+						</th>
+						<td>
+						    <input type="text" class="form-control" name="auth_login" value="{{info.auth_login}}" />
+						</td>
+					</tr>
+                    <tr>
+						<th style="width:100px;">
+						    <label>授权密码</label>
+						</th>
+						<td>
+						    <input type="text" class="form-control" name="auth_ps" value="{{info.auth_ps}}"/>
+						</td>
+					</tr>
+
+					{%endif%}
+                    <tr>
+						<th>
+						<label>旧密码</label>
+						</th>
+						<td>
+						<input  type="password" class="form-control" value="" id="oldpassword" />
+						</td>
+					</tr>
+					<tr>
+						<th>
+						<label>新密码</label>
+						</th>
+						<td>
+						<input onKeyup="testPassStrong(this)" type="password" class="form-control" value="" id="password" />
+						</td>
+					</tr>
+					<tr>
+						<td colspan = 2>
+
+						<div style="width:20px;height:40px;float:left;margin-right:5px;"  >
+							<div name="showPassDiv" style="width:20px;height:5px;float:left;" class="cleDivPass"></div>
+							<div style="width:20px;line-height:35px;text-align:center;vertical-align:bottom;">低</div>
+						</div>
+
+						<div style="width:20px;height:40px;float:left;margin-right:5px;"  >
+							<div name="showPassDiv" style="width:20px;height:5px;float:left;" class="cleDivPass"></div>
+							<div style="width:20px;line-height:35px;text-align:center;vertical-align:bottom;">中</div>
+						</div>
+
+						<div style="width:20px;height:40px;float:left;"  >
+							<div name="showPassDiv" style="width:20px;height:5px;float:left;" class="cleDivPass"></div>
+							<div style="width:20px;line-height:35px;text-align:center;vertical-align:bottom;">高</div>
+						</div>
+						</td>
+					</tr>
+
+
+				</tbody>
+			</table>
+                <button type="button" class="btn btn-success span2" onclick="add_save()"> 修改密码</button>
+				{#<input type="button" class="btn btn-success span2" name="add_save" value="修改密码" onclick="add_r()"/>#}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-sm-7">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <label class="col-sm-12">
+                            <font  style="font-size:20px">交易帐户管理</font>
+                            <span style="margin-left:100px;">
+                                <button class="btn btn-ms btn-info" type="button" onclick="add_r()" title="增加">
+                                    <i class="fa fa-plus">添加帐户</i>
+                                </button>
+                            </span>
+                        </label>
+
+                    </div>
+
+                    <div class="col-sm-12">
+                        <label class="col-sm-12">
+                            <font  style="font-size:10px;color:red">当您添加多个API,请自行确认API相关帐户情况</font>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <label class="col-sm-12">
+                            <font  style="font-size:20px"></font>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr style="background-color:#e5e5e5" bgcolor="#ffffff">
+                            {%for n in NL%}
+                            <th style="text-align:center;">{{n[0]}}</th>
+                            {%endfor%}
+                            <th style="text-align:center;">操作</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for row in dataList %}
+                        <tr bgcolor="#ffffff">
+                            {% for e in row[1:]%}
+                                <td style="text-align:center;">{{e}}</td>
+                            {% endfor %}
+                            <td style="text-align:center;">
+                                <a  class="btn btn-xs btn-warning" onclick="del_r('{{row[0]}}');" title="删除"><i class="fa fa-trash-o">删除</i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+label {
+    font-weight: 600;
+    display: block;
+}
+.setDivPass{
+	background-color:#23ac38;
+}
+.cleDivPass{
+	background-color:#cacaca;
+}
+</style>
+{% endblock %}
+
+{% block page_script %}
+<script type="text/javascript" src="static/assets/js/jsencrypt.min.js"></script>
+<script>
+
+
+	function testPassStrong(passText){
+		var textStr=passText.value;
+		setDivBackground('clear');
+		if(!nisEmpty(textStr)){
+			setDivBackground('add');
+			if(textStr.length>6){
+				setDivBackground('clear');
+				if(/\d+/.test(textStr))setDivBackground('add');
+				if(/[A-Za-z]+/.test(textStr))setDivBackground('add');
+				if(/[`~!@#\$%\^\&\*\(\)_\+<>\?:"\{\},\.\\/;'\[\]]/.test(textStr))setDivBackground('add');
+			}
+		}
+	}
+	function setDivBackground(mode){
+		var showPassDiv=$('div[name=showPassDiv]');
+		if(mode=='add'){
+			if(showPassDiv.eq(0).attr('class')!='setDivPass')showPassDiv.eq(0).attr('class','setDivPass');
+			else if(showPassDiv.eq(1).attr('class')!='setDivPass')showPassDiv.eq(1).attr('class','setDivPass');
+			else if(showPassDiv.eq(2).attr('class')!='setDivPass')showPassDiv.eq(2).attr('class','setDivPass');
+		}else if(mode=='clear'){
+			showPassDiv.eq(0).attr('class','cleDivPass');
+			showPassDiv.eq(1).attr('class','cleDivPass');
+			showPassDiv.eq(2).attr('class','cleDivPass');
+		}
+	}
+
+	function add_save(){
+		var old_password=$('#oldpassword').val();
+		var new_password=$('#password').val();
+		console.log(old_password,new_password)
+		if(old_password==''){
+                layer.msg('旧密码不能为空！')
+                return false;
+        }
+        if(new_password==''){
+                layer.msg('新密码不能为空！')
+                return false;
+        }
+        var PUBLIC_KEY=''
+        $.ajax({
+            type: 'POST',
+            url:"/admin",
+            async:false,
+            data:{
+            'viewid':'login',
+            'part':'showkey'},
+            success: function(res){
+                if (res.code=='0'){
+                  	PUBLIC_KEY=res.PUBLIC_KEY
+                }else{
+                    layer.msg(res.MSG);
+
+                }
+            }
+        });
+        if (PUBLIC_KEY==''){
+        	return false;
+        }
+
+		//var psobj = {};
+		var psobj=new Object();
+        psobj.password = new_password;
+        psobj.oldpassword =old_password;
+        var psstr = JSON.stringify(psobj);
+        var encrypt = new JSEncrypt();
+        encrypt.setPublicKey(PUBLIC_KEY);
+        var encrypted = encrypt.encrypt(psstr);
+		var data={
+            'viewid':'H001',
+            'part':'upps',
+			'psstr':encrypted
+        }
+		$.ajax({
+            type: 'POST',
+            url:"/admin",
+            async:false,
+            data: data,
+            success: function(res){
+                if (res.code=='0'){
+                    layer.msg(res.MSG);
+                    setTimeout(location.reload(), 3000);
+                }else{
+                    layer.msg(res.MSG);
+                }
+            }
+        });
+		return false;
+	}
+        
+
+</script>
+
+<script>
+
+function add_r(){
+
+	content_html='<form id="tf"><input type="hidden" name="lid" value="">';
+	content_html+='<br><br><div class="col-sm-12">';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">交易所:</b></label>';
+    content_html+=' <div class="col-sm-9">';
+    content_html+='<select name="bourse_id"  class="form-control" >';
+     content_html+='<option value="1">OKEx</option>';
+
+    content_html+='</select></div></div><br><br>';
+    content_html+='<div class="col-sm-12">';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">帐户名称:<font color="red">*</font></b></label>';
+    content_html+='<div class="col-sm-9">';
+    content_html+=' <input type="text" class="form-control"  name="title" value="" style="width:100%;"/>';
+    content_html+=' </div></div><br><br>';
+    content_html+='<div class="col-sm-12">';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">APIKey:<font color="red">*</font></b></label>';
+    content_html+='<div class="col-sm-9">';
+    content_html+=' <input type="text" class="form-control"  name="apikey" value="" style="width:100%;"/>';
+    content_html+=' </div></div><br><br>';
+    content_html+='<div class="col-sm-12">';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">SecretKey:<font color="red">*</font></b></label>';
+    content_html+=' <div class="col-sm-9">';
+    content_html+=' <input type="text" class="form-control"  name="secretkey" value="" style="width:100%;"/>';
+    content_html+='</div></div><br><br>';
+    content_html+='<div class="col-sm-12">';
+    content_html+='<label class="col-sm-3 control-label"><b style="color:#333333;">PassPhrase:<font color="red">*</font></b></label>';
+    content_html+=' <div class="col-sm-9">';
+    content_html+=' <input type="text" class="form-control"  name="passphrase" value="" style="width:100%;"/>';
+    content_html+='</div></div><br><br>';
+    content_html+='</form>';
+
+    layer.open({
+        type: 1,
+        skin: 'layui-layer-rim', //加上边框
+        area: ['65rem;', '45rem;'], //宽高
+        content: content_html,
+        title: "添加帐户",
+        btn: ['确认添加']
+        ,yes: function(index, layero){
+            var bourse_id = $('select[name=bourse_id]').val();
+            var title = $('input[name=title]').val();
+            var apikey = $('input[name=apikey]').val();
+            var secretkey = $('input[name=secretkey]').val();
+            var passphrase = $('input[name=passphrase]').val();
+
+            if(title==''){
+                layer.msg('帐户名称不能为空！')
+                return false;
+            }
+            if(apikey==''){
+                layer.msg('APIKey不能为空！')
+                return false;
+            }
+            if(secretkey==''){
+                layer.msg('SecretKey不能为空！')
+                return false;
+            }
+            if(passphrase==''){
+                layer.msg('PassPhrase不能为空！')
+                return false;
+            }
+
+            var PUBLIC_KEY=''
+            $.ajax({
+                type: 'POST',
+                url:"/admin",
+                async:false,
+                data:{
+                'viewid':'login',
+                'part':'showkey'},
+                success: function(res){
+                    if (res.code=='0'){
+                        PUBLIC_KEY=res.PUBLIC_KEY
+                    }else{
+                        layer.msg(res.MSG);
+
+                    }
+                }
+            });
+            if (PUBLIC_KEY==''){
+                return false;
+            }
+
+            var person=new Object();
+            person.bourse_id=bourse_id;
+            person.title = title;
+            person.apikey =apikey;
+            person.secretkey =secretkey;
+            person.passphrase =passphrase;
+            var personstr = JSON.stringify(person);
+            var signature = new JSEncrypt();
+            signature.setPublicKey(PUBLIC_KEY);
+            var signaturestr = signature.encrypt(personstr);
+
+            var data={
+            'viewid':'H001',
+            'part':'bourse_users',
+			'personstr':signaturestr
+            }
+            $.ajax({
+                type: 'POST',
+                url:"/admin",
+                async:false,
+                data: data,
+                success: function(res){
+                    if (res.code=='0'){
+                        layer.msg(res.MSG);
+                        setTimeout(location.reload(), 3000);
+                    }else{
+                        layer.msg(res.MSG);
+                    }
+                }
+            });
+            return false;
+
+         }
+    });
+}
+
+    function del_r(id){
+        layer.confirm('你确信要删除帐户吗？', {
+		btn: ['是','否'] //按钮
+		}, function(index,layero){
+			layer.close(index);
+            $.ajax({
+                url:sUrl+"&part=del_r&id="+id,
+                async:false,
+                success: function(data){
+                    if (data.code=='0'){
+                        layer.close(index);
+                        layer.msg(data.MSG);
+                        setTimeout(location.reload(), 3000);
+                    }else{
+                        layer.msg(data.MSG);
+                    }
+                }
+            });
+		}, function(){
+			layer.closeAll();
+		});
+    }
+
+</script>
+
+{% endblock %}
+        
+            
+	

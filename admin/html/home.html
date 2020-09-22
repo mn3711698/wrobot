@@ -1,0 +1,171 @@
+{% extends "main_mul.html" %}
+{% block topSearch %}
+<table class="table table-bordered tb searchtbl">
+    <tbody>
+        <tr>
+            <th width="230" style="font-size:14px;">关键字(只支持持仓流水)</th>
+            <td width="280">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="qqid" value="{{qqid}}" placeholder="请输入系统订单号"/>
+                    <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" onclick="url_search()"><i class="fa fa-search"></i> 搜索</button>
+                    </span>
+                </div>
+            </td>
+            <td width="auto">
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}
+{% block html_pager %}{% endblock %}
+{% block mMul_Page_1 %}
+<div class="panel-body">
+    <div class="row">
+        <div class="col-sm-12">
+			<table class="table-bordered">
+                <tbody>
+                    <thead>
+                        <tr style="background-color:#e5e5e5" bgcolor="#ffffff">
+                            {%for n in NL1%}
+                            <th style="text-align:center;">{{n[0]}}</th>
+                            {%endfor%}
+                        </tr>
+                    </thead>
+                    {% for row in dataList %}
+                    <tr bgcolor="#ffffff">
+                        {% for e in row %}
+                        <td style="text-align:center;">{{e}}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+			{{html_pager}}
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block mMul_Page_2 %}
+ <div class="panel-body">
+    <div class="row">
+        <div class="col-sm-12">
+			<table class="table-bordered">
+                <tbody>
+                    <thead>
+                        <tr style="background-color:#e5e5e5" bgcolor="#ffffff">
+                            {%for n in NL2%}
+                            <th style="text-align:left;width:{{n[2]}};">{{n[0]}}</th>
+                            {%endfor%}
+                        </tr>
+                    </thead>
+                    {% for row in dataList %}
+                    <tr bgcolor="#ffffff">
+                        <td style="text-align:left;">{{row[0]}}</td>
+                        <td style="text-align:left;">{{row[1]}}</td>
+                        <td style="text-align:left;">{{row[2]}}</td>
+                        {%if row[3]|int!=0%}
+                        <td style="text-align:left;">{{row[3]}}</td>
+                        <td style="text-align:left;">{{row[4]}}</td>
+                        <td style="text-align:left;">{{row[5]}}</td>
+
+                        {%else%}
+                        <td style="text-align:left;">{{row[6]}}</td>
+                        <td style="text-align:left;">{{row[7]}}</td>
+                        <td style="text-align:left;">{{row[8]}}</td>
+
+                        {%endif%}
+                        <td style="text-align:left;">{{row[9]}}</td>
+                        <td style="text-align:left;">{{row[10]}}</td>
+                        <td style="text-align:left;">{{row[11]}}</td>
+                        <td style="text-align:left;">{{row[12]}}</td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+			{{html_pager}}
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block mMul_Page_3 %}
+ <div class="panel-body">
+    <div class="row">
+        <div class="col-sm-12">
+			<table class="table-bordered">
+                <tbody>
+                    <thead>
+                        <tr style="background-color:#e5e5e5" bgcolor="#ffffff">
+                            {%for n in NL3%}
+                            <th style="text-align:center;">{{n[0]}}</th>
+                            {%endfor%}
+                        </tr>
+                    </thead>
+                    {% for row in dataList %}
+                    <tr bgcolor="#ffffff">
+                        {% for e in row %}
+                        <td style="text-align:center;">{{e}}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+			{{html_pager}}
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block mMul_Page_4 %}
+ <div class="panel-body">
+    <div class="row">
+        <div class="col-sm-12">
+			<table class="table-bordered">
+                <tbody>
+                    <thead>
+                        <tr style="background-color:#e5e5e5" bgcolor="#ffffff">
+                            {%for n in NL4%}
+                            <th style="text-align:left;width:{{n[2]}};">{{n[0]}}</th>
+                            {%endfor%}
+                        </tr>
+                    </thead>
+                    {% for row in dataList %}
+                    <tr bgcolor="#ffffff">
+
+                        <td style="text-align:left;">{{row[0]}}</td>
+                        <td style="text-align:left;">{{row[1]}}</td>
+                        <td style="text-align:left;">{{row[2]}}</td>
+                        {%if row[3]|int!=0%}
+                        <td style="text-align:left;">{{row[3]}}</td>
+                        <td style="text-align:left;">{{row[4]}}</td>
+                        <td style="text-align:left;">{{row[5]}}</td>
+
+                        {%else%}
+                        <td style="text-align:left;">{{row[7]}}</td>
+                        <td style="text-align:left;">{{row[8]}}</td>
+                        <td style="text-align:left;">{{row[9]}}</td>
+
+
+                        {%endif%}
+                        <td style="text-align:left;">{{row[11]}}</td>
+                        <td style="text-align:left;">{{row[12]}}</td>
+                        <td style="text-align:left;">{{row[13]}}</td>
+                        <td style="text-align:left;">{{row[14]}}</td>
+
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+			{{html_pager}}
+		</div>
+	</div>
+</div>
+{% endblock %}
+{% block page_script %}
+
+{% endblock %}
