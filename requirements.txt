@@ -1,0 +1,5 @@
+
+requests
+websockets==6.0
+gevent
+pandas

@@ -1,10 +1,22 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
-*.py[cod]
+*.py[co]
 *$py.class
 
 # C extensions
-*.so
+#*.so
+#*.pyd
+
+JDL.py
+JDW.py
+JD_TOOL.py
+setup.py
+JSL.py
+JSW.py
+TradeL.py
+TradeW.py
+
+
 
 # Distribution / packaging
 .Python
