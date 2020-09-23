@@ -76,8 +76,8 @@ class chome_dl(cBASE_DL):
         parm = []
         if self.tab=='4':
             if self.qqid!='':
-                sql+= " where client_oid=%s "
-                parm.append(self.qqid)
+                sql+= " where (client_oid=%s or results like %s)"
+                parm=[self.qqid,'%%%s%%'%self.qqid]
             sql+=" order by ctime desc limit 1000;"
 
 
