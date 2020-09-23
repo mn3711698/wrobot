@@ -254,6 +254,9 @@ def remark_to_positions_save(stop_pnl,pnl_num,stop_kx,kx_num,pt,parameters):
                     remark += """,多级动态止盈,longpnl:%s > float(sy6):%s and float(h_last):%s > (last * (1 + float(ht6))):%s
                                         """ % (
                     longpnl, float(sy6), float(h_last), (last * (1 + float(ht6))))
+                else:
+                    remark += """,多级动态止盈,longpnl:%s,float(h_last):%s,last:%s
+                            """ % (longpnl,float(h_last),last)
 
             else:
                 remark += """,策略止盈,self.stop_pnl:%s""" % stop_pnl
@@ -364,6 +367,9 @@ def remark_to_positions_save(stop_pnl,pnl_num,stop_kx,kx_num,pt,parameters):
                 elif shortpnl > float(sy6) and float(l_last) >0:
                     remark += """,多级动态止盈：shortpnl：%s > float(sy6):%s and float(l_last):%s < (last * (1 - float(ht6))):%s
                     """%(shortpnl, float(sy6), float(l_last), (last * (1 - float(ht6))))
+                else:
+                    remark += """,多级动态止盈：shortpnl：%s,float(l_last):%s,last:%s
+                    """%(shortpnl,float(l_last),last)
 
             else:
                 remark += ',策略止盈,self.stop_pnl:%s' % stop_pnl
