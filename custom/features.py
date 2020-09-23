@@ -82,17 +82,17 @@ def Stop_profit_now(stop_pnl,pnl_num,pt,parameters):#止盈处理
             # 多单：当“收益”大于"收益4"并且“收益”小于"收益5"并且“最新价”小于(“最高价”乘以(1-“回撤4”))时平仓
             # 多单：当“收益”大于"收益5"并且“收益”小于"收益6"并且“最新价”小于(“最高价”乘以(1-“回撤5”))时平仓
             # 多单：当“收益”大于"收益6"并且“最新价”小于(“最高价”乘以(1+“回撤6”))时平仓
-            if longpnl > float(sy1) and longpnl < float(sy2) and float(last) < (h_last*(1-float(ht1))):
+            if longpnl > float(sy1) and longpnl<float(sy2) and float(h_last)>0 and float(last)<(h_last*(1-float(ht1))):
                 return 11
-            elif longpnl>float(sy2) and longpnl<float(sy3) and float(last) < (h_last*(1-float(ht2))):
+            elif longpnl>float(sy2) and longpnl<float(sy3) and float(h_last)>0 and float(last)<(h_last*(1-float(ht2))):
                 return 11
-            elif longpnl>float(sy3) and longpnl<float(sy4) and float(last) < (h_last*(1-float(ht3))):
+            elif longpnl>float(sy3) and longpnl<float(sy4) and float(h_last)>0 and float(last)<(h_last*(1-float(ht3))):
                 return 11
-            elif longpnl>float(sy4) and longpnl<float(sy5) and float(last) < (h_last*(1-float(ht4))):
+            elif longpnl>float(sy4) and longpnl<float(sy5) and float(h_last)>0 and float(last)<(h_last*(1-float(ht4))):
                 return 11
-            elif longpnl>float(sy5) and longpnl<float(sy6) and float(last) < (h_last*(1-float(ht5))):
+            elif longpnl>float(sy5) and longpnl<float(sy6) and float(h_last)>0 and float(last)<(h_last*(1-float(ht5))):
                 return 11
-            elif longpnl>float(sy6) and float(last) < (h_last*(1-float(ht6))):
+            elif longpnl>float(sy6) and float(h_last)>0 and float(last) < (h_last*(1-float(ht6))):
                 return 11
 
         elif shortnum > 0:  # 平空
@@ -221,39 +221,44 @@ def remark_to_positions_save(stop_pnl,pnl_num,stop_kx,kx_num,pt,parameters):
                 longcost * (1 + float(pnl_tag)), last, last * (1 + float(pnl_num)), float(h_last), last,
                 float(h_last))
             elif str(stop_pnl) == '7':
-                if longpnl > float(sy1) and longpnl < float(sy2):
-                    remark += """,多级动态止盈,longpnl:%s > float(sy1):%s and longpnl:%s < float(sy2):%s and float(h_last):%s > (last * (1 + float(ht1))):%s
-                    """ % (longpnl,float(sy1), longpnl , float(sy2) , float(h_last) , (last*(1 + float(ht1))))
+                if longpnl > float(sy1) and longpnl < float(sy2) and float(h_last)>0:
+                    remark += """,多级动态止盈,longpnl:%s > float(sy1):%s and longpnl:%s < float(sy2):%s 
+                    and float(last):%s < (h_last * (1-float(ht1))):%s
+                    """ % (longpnl,float(sy1), longpnl , float(sy2) , float(last) , (h_last*(1-float(ht1))))
 
 
-                elif longpnl > float(sy2) and longpnl < float(sy3):
-                    remark += """,多级动态止盈,longpnl:%s > float(sy2):%s and longpnl:%s < float(sy3):%s and float(h_last):%s > (last * (1 + float(ht2))):%s
+                elif longpnl > float(sy2) and longpnl < float(sy3) and float(h_last)>0:
+                    remark += """,多级动态止盈,longpnl:%s > float(sy2):%s and longpnl:%s < float(sy3):%s 
+                    and float(last):%s <(h_last*(1-float(ht2))):%s
                                         """ % (
-                    longpnl, float(sy2), longpnl, float(sy3), float(h_last), (last * (1 + float(ht2))))
+                    longpnl, float(sy2), longpnl, float(sy3), float(last), (h_last*(1-float(ht2))))
 
 
-                elif longpnl > float(sy3) and longpnl < float(sy4):
-                    remark += """,多级动态止盈,longpnl:%s > float(sy3):%s and longpnl:%s < float(sy4):%s and float(h_last):%s > (last * (1 + float(ht3))):%s
+                elif longpnl > float(sy3) and longpnl < float(sy4) and float(h_last)>0:
+                    remark += """,多级动态止盈,longpnl:%s > float(sy3):%s and longpnl:%s < float(sy4):%s 
+                    and float(last):%s <(h_last*(1-float(ht3))):%s
                                         """ % (
-                    longpnl, float(sy3), longpnl, float(sy4), float(h_last), (last * (1 + float(ht3))))
+                    longpnl, float(sy3), longpnl, float(sy4), float(last) , (h_last*(1-float(ht3))))
 
 
-                elif longpnl > float(sy4) and longpnl < float(sy5):
-                    remark += """,多级动态止盈,longpnl:%s > float(sy4):%s and longpnl:%s < float(sy5):%s and float(h_last):%s > (last * (1 + float(ht4))):%s
+                elif longpnl > float(sy4) and longpnl < float(sy5) and float(h_last)>0:
+                    remark += """,多级动态止盈,longpnl:%s > float(sy4):%s and longpnl:%s < float(sy5):%s 
+                    and float(last):%s < (h_last*(1-float(ht4))):%s
                                         """ % (
-                    longpnl, float(sy4), longpnl, float(sy5), float(h_last), (last * (1 + float(ht4))))
+                    longpnl, float(sy4), longpnl, float(sy5), float(last) , (h_last*(1-float(ht4))))
 
 
-                elif longpnl > float(sy5) and longpnl < float(sy6):
-                    remark += """,多级动态止盈,longpnl:%s > float(sy5):%s and longpnl:%s < float(sy6):%s and float(h_last):%s > (last * (1 + float(ht5))):%s
+                elif longpnl > float(sy5) and longpnl < float(sy6) and float(h_last)>0:
+                    remark += """,多级动态止盈,longpnl:%s > float(sy5):%s and longpnl:%s < float(sy6):%s 
+                    and float(last):%s < (h_last*(1-float(ht5))):%s
                                         """ % (
-                    longpnl, float(sy5), longpnl, float(sy6), float(h_last), (last * (1 + float(ht5))))
+                    longpnl, float(sy5), longpnl, float(sy6), float(last) , (h_last*(1-float(ht5))))
 
 
-                elif longpnl > float(sy6):
-                    remark += """,多级动态止盈,longpnl:%s > float(sy6):%s and float(h_last):%s > (last * (1 + float(ht6))):%s
+                elif longpnl > float(sy6) and float(h_last)>0:
+                    remark += """,多级动态止盈,longpnl:%s > float(sy6):%s and float(last):%s < (h_last*(1-float(ht6))):%s
                                         """ % (
-                    longpnl, float(sy6), float(h_last), (last * (1 + float(ht6))))
+                    longpnl, float(sy6), float(last) , (h_last*(1-float(ht6))))
                 else:
                     remark += """,多级动态止盈,longpnl:%s,float(h_last):%s,last:%s
                             """ % (longpnl,float(h_last),last)
@@ -312,7 +317,7 @@ def remark_to_positions_save(stop_pnl,pnl_num,stop_kx,kx_num,pt,parameters):
                     remark += ',获利回撤止盈：float(self.h_shortpnl)=0:%s' % float(h_shortpnl)
                 else:
                     remark += """
-                            ,获利回撤止盈：float(self.h_shortpnl)-longpnl)/float(self.h_shortpnl):%s > float(self.pnl_num):%s
+                    ,获利回撤止盈：float(self.h_shortpnl)-longpnl)/float(self.h_shortpnl):%s > float(self.pnl_num):%s
                                 """ % ((float(h_shortpnl) - longpnl) / float(h_shortpnl), float(pnl_num))
 
             elif str(stop_pnl) == '4':
@@ -340,33 +345,39 @@ def remark_to_positions_save(stop_pnl,pnl_num,stop_kx,kx_num,pt,parameters):
                                 """ % ((shortcost - last) / (shortcost - float(l_last)), float(pnl_num))
             elif str(stop_pnl) == '6':
                 remark += """
-                ,动态止盈：shortcost*(1-float(self.pnl_tag)):%s > last:%s and last*(1-float(self.pnl_num))：%s > float(self.l_last):%s  and  last:%s<float(self.l_last):%s
-                """ % (shortcost * (1 - float(pnl_tag)), last, last * (1 - float(pnl_num)), float(l_last), last,float(l_last))
+                ,动态止盈:shortcost*(1-float(self.pnl_tag)):%s > last:%s 
+                and last*(1-float(self.pnl_num))：%s > float(self.l_last):%s  and  last:%s<float(self.l_last):%s
+                """%(shortcost * (1 - float(pnl_tag)),last,last * (1-float(pnl_num)),float(l_last),last,float(l_last))
 
             elif str(stop_pnl)=='7':
                 if shortpnl > float(sy1) and shortpnl < float(sy2) and float(l_last) >0:
-                    remark += """,多级动态止盈：shortpnl：%s > float(sy1):%s and shortpnl:%s < float(sy2):%s and float(l_last):%s < (last * (1 - float(ht1))):%s
-                    """%(shortpnl,float(sy1),shortpnl,float(sy2),float(l_last),(last * (1 - float(ht1))))
+                    remark += """,多级动态止盈shortpnl：%s > float(sy1):%s and shortpnl:%s < float(sy2):%s 
+                    and float(last):%s < (l_last * (1 + float(ht1))):%s
+                    """%(shortpnl,float(sy1),shortpnl,float(sy2),float(last),(l_last * (1+float(ht1))))
 
                 elif shortpnl > float(sy2) and shortpnl < float(sy3) and float(l_last) >0:
-                    remark += """,多级动态止盈：shortpnl：%s > float(sy2):%s and shortpnl:%s < float(sy3):%s and float(l_last):%s < (last * (1 - float(ht2))):%s
-                    """%(shortpnl, float(sy2), shortpnl, float(sy3), float(l_last), (last * (1 - float(ht2))))
+                    remark += """,多级动态止盈shortpnl：%s > float(sy2):%s and shortpnl:%s < float(sy3):%s 
+                    and float(last):%s < (l_last * (1 + float(ht2))):%s
+                    """%(shortpnl, float(sy2), shortpnl, float(sy3),float(last),(l_last * (1+float(ht2))))
 
                 elif shortpnl > float(sy3) and shortpnl < float(sy4) and float(l_last) >0:
-                    remark += """,多级动态止盈：shortpnl：%s > float(sy3):%s and shortpnl:%s < float(sy4):%s and float(l_last):%s < (last * (1 - float(ht3))):%s
-                    """%(shortpnl, float(sy3), shortpnl, float(sy4), float(l_last), (last * (1 - float(ht3))))
+                    remark += """,多级动态止盈shortpnl：%s > float(sy3):%s and shortpnl:%s < float(sy4):%s 
+                    and float(last):%s < (l_last * (1 +float(ht3))):%s
+                    """%(shortpnl, float(sy3), shortpnl, float(sy4),float(last),(l_last * (1+float(ht3))))
 
                 elif shortpnl > float(sy4) and shortpnl < float(sy5) and float(l_last) >0:
-                    remark += """,多级动态止盈：shortpnl：%s > float(sy4):%s and shortpnl:%s < float(sy5):%s and float(l_last):%s < (last * (1 - float(ht4))):%s
-                    """%(shortpnl, float(sy4), shortpnl, float(sy5), float(l_last), (last * (1 - float(ht4))))
+                    remark += """,多级动态止盈shortpnl：%s > float(sy4):%s and shortpnl:%s < float(sy5):%s 
+                    and float(last):%s < (l_last * (1 +float(ht4))):%s
+                    """%(shortpnl, float(sy4), shortpnl, float(sy5),float(last),(l_last * (1+float(ht4))))
 
                 elif shortpnl > float(sy5) and shortpnl < float(sy6) and float(l_last) >0:
-                    remark += """,多级动态止盈：shortpnl：%s > float(sy5):%s and shortpnl:%s < float(sy6):%s and float(l_last):%s < (last * (1 - float(ht5))):%s
-                    """%(shortpnl, float(sy5), shortpnl, float(sy6), float(l_last), (last * (1 - float(ht5))))
+                    remark += """,多级动态止盈shortpnl：%s > float(sy5):%s and shortpnl:%s < float(sy6):%s 
+                    and float(last):%s <(l_last*(1 + float(ht5))):%s
+                    """%(shortpnl, float(sy5), shortpnl, float(sy6),float(last),(l_last * (1+float(ht5))))
 
                 elif shortpnl > float(sy6) and float(l_last) >0:
-                    remark += """,多级动态止盈：shortpnl：%s > float(sy6):%s and float(l_last):%s < (last * (1 - float(ht6))):%s
-                    """%(shortpnl, float(sy6), float(l_last), (last * (1 - float(ht6))))
+                    remark += """,多级动态止盈shortpnl：%s > float(sy6):%s and float(last):%s <(l_last*(1+float(ht6))):%s
+                    """%(shortpnl, float(sy6),float(last),(l_last * (1+float(ht6))))
                 else:
                     remark += """,多级动态止盈：shortpnl：%s,float(l_last):%s,last:%s
                     """%(shortpnl,float(l_last),last)
