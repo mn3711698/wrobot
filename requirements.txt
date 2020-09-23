@@ -8,7 +8,6 @@ flask
 Jinja2
 MarkupSafe
 pycryptodome
-function_scheduling_distributed_framework
 jsonschema
 pyjwt
 redis
@@ -19,3 +18,4 @@ pandas
 rsa
 python-socketio
 websockets==6.0
+function_scheduling_distributed_framework
