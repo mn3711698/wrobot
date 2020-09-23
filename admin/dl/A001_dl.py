@@ -166,7 +166,7 @@ class cA001_dl(cBASE_DL):
         deal_num,ctime,t_instrument_id,tp_okexs,stop_pnl,pnl_num,stop_kx,kx_num,pnl_tag,
         sy1,sy2,sy3,sy4,sy5,sy6,ht1,ht2,ht3,ht4,ht5,ht6)
         values(%s,%s,%s,encrypt(%s,%s,'aes'),encrypt(%s,%s,'aes'),encrypt(%s,%s,'aes'),
-        %s,now(),%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);
+        %s,now(),%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);
         """
         parm=[self.usr_id,bu_id,bu_title,bu_api,self.md5code,bu_secret,self.md5code,bu_passp,self.md5code,
               deal_num,symbol,tp_id,stop_pnl,pnl_num,stop_kx,kx_num,pnl_tag,sy1,sy2,sy3,sy4,sy5,sy6,
