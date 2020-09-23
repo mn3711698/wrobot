@@ -16,6 +16,8 @@
 
 下载本项目代码压缩包，放在C盘根目录下，解压，最终代码在C:\wrobot\下。如果是git下载，也请代码放在C:\wrobot\下，建议使用git下载，方便后续更新
 
+先安装Visual Studio 2019，https://visualstudio.microsoft.com/zh-hant/downloads/，在这个链接下载社群版本，免费的。安装时，直接下一步，不需要选择其他的。
+
 安装相关库(只支持python3)  pip3 install -r requirements.txt 或 pip install -r requirements.txt
 
 安装postgresql,这个自行搜索安装。注意要记录数据库登录密码，然后还要建一个数据库，记录好数据库名，一会安装要用
