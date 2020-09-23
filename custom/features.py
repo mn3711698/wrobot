@@ -76,43 +76,43 @@ def Stop_profit_now(stop_pnl,pnl_num,pt,parameters):#止盈处理
             return -11
     elif str(stop_pnl) == '7':##########################
         if longnum > 0:  # 平多
-            # 多单：当“收益”大于"收益1"并且“收益”小于"收益2"并且“最高价”大于(“最新价”乘以(1+“回撤1”))时平仓
-            # 多单：当“收益”大于"收益2"并且“收益”小于"收益3"并且“最高价”大于(“最新价”乘以(1+“回撤2”))时平仓
-            # 多单：当“收益”大于"收益3"并且“收益”小于"收益4"并且“最高价”大于(“最新价”乘以(1+“回撤3”))时平仓
-            # 多单：当“收益”大于"收益4"并且“收益”小于"收益5"并且“最高价”大于(“最新价”乘以(1+“回撤4”))时平仓
-            # 多单：当“收益”大于"收益5"并且“收益”小于"收益6"并且“最高价”大于(“最新价”乘以(1+“回撤5”))时平仓
-            # 多单：当“收益”大于"收益6"并且“最高价”大于(“最新价”乘以(1+“回撤6”))时平仓
-            if longpnl>float(sy1) and longpnl<float(sy2) and float(h_last)>(last*(1+float(ht1))):
+            # 多单：当“收益”大于"收益1"并且“收益”小于"收益2"并且“最新价”小于(“最高价”乘以(1-“回撤1”))时平仓
+            # 多单：当“收益”大于"收益2"并且“收益”小于"收益3"并且“最新价”小于(“最高价”乘以(1-“回撤2”))时平仓
+            # 多单：当“收益”大于"收益3"并且“收益”小于"收益4"并且“最新价”小于(“最高价”乘以(1-“回撤3”))时平仓
+            # 多单：当“收益”大于"收益4"并且“收益”小于"收益5"并且“最新价”小于(“最高价”乘以(1-“回撤4”))时平仓
+            # 多单：当“收益”大于"收益5"并且“收益”小于"收益6"并且“最新价”小于(“最高价”乘以(1-“回撤5”))时平仓
+            # 多单：当“收益”大于"收益6"并且“最新价”小于(“最高价”乘以(1+“回撤6”))时平仓
+            if longpnl > float(sy1) and longpnl < float(sy2) and float(last) < (h_last*(1-float(ht1))):
                 return 11
-            elif longpnl>float(sy2) and longpnl<float(sy3) and float(h_last)>(last*(1+float(ht2))):
+            elif longpnl>float(sy2) and longpnl<float(sy3) and float(last) < (h_last*(1-float(ht2))):
                 return 11
-            elif longpnl>float(sy3) and longpnl<float(sy4) and float(h_last)>(last*(1+float(ht3))):
+            elif longpnl>float(sy3) and longpnl<float(sy4) and float(last) < (h_last*(1-float(ht3))):
                 return 11
-            elif longpnl>float(sy4) and longpnl<float(sy5) and float(h_last)>(last*(1+float(ht4))):
+            elif longpnl>float(sy4) and longpnl<float(sy5) and float(last) < (h_last*(1-float(ht4))):
                 return 11
-            elif longpnl>float(sy5) and longpnl<float(sy6) and float(h_last)>(last*(1+float(ht5))):
+            elif longpnl>float(sy5) and longpnl<float(sy6) and float(last) < (h_last*(1-float(ht5))):
                 return 11
-            elif longpnl>float(sy6) and float(h_last)>(last*(1+float(ht6))):
+            elif longpnl>float(sy6) and float(last) < (h_last*(1-float(ht6))):
                 return 11
 
         elif shortnum > 0:  # 平空
-            # 空单：当“收益”大于"收益1"并且“收益”小于"收益2"并且“最低价”小于(“最新价”乘以(1-“回撤1”))时平仓
-            # 空单：当“收益”大于"收益2"并且“收益”小于"收益3"并且“最低价”小于(“最新价”乘以(1-“回撤2”))时平仓
-            # 空单：当“收益”大于"收益3"并且“收益”小于"收益4"并且“最低价”小于(“最新价”乘以(1-“回撤3”))时平仓
-            # 空单：当“收益”大于"收益4"并且“收益”小于"收益5"并且“最低价”小于(“最新价”乘以(1-“回撤4”))时平仓
-            # 空单：当“收益”大于"收益5"并且“收益”小于"收益6"并且“最低价”小于(“最新价”乘以(1-“回撤5”))时平仓
-            # 空单：当“收益”大于"收益6"并且“最低价”小于(“最新价”乘以(1-“回撤6”))时平仓
-            if shortpnl>float(sy1) and shortpnl<float(sy2) and float(l_last) >0 and float(l_last)<(last*(1-float(ht1))):
+            # 空单：当“收益”大于"收益1"并且“收益”小于"收益2"并且“最新价”大于(“最低价”乘以(1+“回撤1”))时平仓
+            # 空单：当“收益”大于"收益2"并且“收益”小于"收益3"并且“最新价”大于(“最低价”乘以(1+“回撤2”))时平仓
+            # 空单：当“收益”大于"收益3"并且“收益”小于"收益4"并且“最新价”大于(“最低价”乘以(1+“回撤3”))时平仓
+            # 空单：当“收益”大于"收益4"并且“收益”小于"收益5"并且“最新价”大于(“最低价”乘以(1+“回撤4”))时平仓
+            # 空单：当“收益”大于"收益5"并且“收益”小于"收益6"并且“最新价”大于(“最低价”乘以(1+“回撤5”))时平仓
+            # 空单：当“收益”大于"收益6"并且“最新价”大于(“最低价”乘以(1+“回撤6”))时平仓
+            if shortpnl>float(sy1) and shortpnl<float(sy2) and float(l_last) > 0 and float(last)>(l_last*(1+float(ht1))):
                 return -11
-            elif shortpnl>float(sy2) and shortpnl<float(sy3) and float(l_last) >0 and float(l_last)<(last*(1-float(ht2))):
+            elif shortpnl>float(sy2) and shortpnl<float(sy3) and float(l_last) >0 and float(last)>(l_last*(1+float(ht2))):
                 return -11
-            elif shortpnl>float(sy3) and shortpnl<float(sy4) and float(l_last) >0 and float(l_last)<(last*(1-float(ht3))):
+            elif shortpnl>float(sy3) and shortpnl<float(sy4) and float(l_last) >0 and float(last)>(l_last*(1+float(ht3))):
                 return -11
-            elif shortpnl>float(sy4) and shortpnl<float(sy5) and float(l_last) >0 and float(l_last)<(last*(1-float(ht4))):
+            elif shortpnl>float(sy4) and shortpnl<float(sy5) and float(l_last) >0 and float(last)>(l_last*(1+float(ht4))):
                 return -11
-            elif shortpnl>float(sy5) and shortpnl<float(sy6) and float(l_last) >0 and float(l_last)<(last*(1-float(ht5))):
+            elif shortpnl>float(sy5) and shortpnl<float(sy6) and float(l_last) >0 and float(last)>(l_last*(1+float(ht5))):
                 return -11
-            elif shortpnl>float(sy6) and float(l_last) >0 and float(l_last)<(last*(1-float(ht1))):
+            elif shortpnl>float(sy6) and float(l_last) >0 and float(last) > (l_last*(1+float(ht6))):
                 return -11
 
     return ''
