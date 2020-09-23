@@ -7,9 +7,11 @@ import base64
 import json
 import time
 import random
+import traceback
 from Crypto.Cipher import PKCS1_v1_5 as Cipher_pkcs1_v1_5
 from Crypto.PublicKey import RSA
 from basic.VIEW_TOOL import cDL
+from basic.JD_TOOL import robot_bugerror
 import okexapi.account_api as account
 
 class cBASE_DL(cDL):
@@ -131,6 +133,7 @@ class cBASE_DL(cDL):
         try:
             result = accountAPI.coin_transfer('', '', 1, 1, 5, sub_account='', instrument_id='', to_instrument_id='')
         except:
+            robot_bugerror(traceback,'apikey_check')
             return 3
         if result["code"] == 30006:
             #print("密钥校验有误")
