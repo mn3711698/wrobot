@@ -79,8 +79,8 @@ if __name__ == "__main__":
             from user_strategy where coalesce(del_flag,0)=0 and coalesce(status,0) not in (0,5)
             """
             l, t = db.select(sql, [md5code, md5code, md5code])
-
-            gevent.joinall([gevent.spawn(fetch, x) for x in l])
+            if t>0:
+                gevent.joinall([gevent.spawn(fetch, x) for x in l])
             time.sleep(10)
     except:
         robot_bugerror(traceback,'begin_user_strategy_error')
