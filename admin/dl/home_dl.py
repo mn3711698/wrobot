@@ -37,7 +37,7 @@ class chome_dl(cBASE_DL):
 
         self.GNL1 = self.parse_GNL([0, 1, 2, 3,10])
         self.GNL2 = self.parse_GNL([13,0,11,4,5, 6,8,12,7,10])
-        self.GNL3 = self.parse_GNL([0,9,1,4,5,6,8,12,7,10])
+        self.GNL3 = self.parse_GNL([13,0,9,1,4,5,6,8,12,7,10])
         self.GNL4 = self.parse_GNL([13,0,11,4,5, 6,8,12,7,10])
 
     #在子类中重新定义
@@ -64,7 +64,7 @@ class chome_dl(cBASE_DL):
             """
         elif self.tab=='3':#止盈止损日志
             sql = """
-            select instrument_id,remark,deal_num,num,costs,pnl,lasts,highest,lowhest,to_char(ctime,'YYYY-MM-DD HH24:MI:SS') 
+            select client_oid,instrument_id,remark,deal_num,num,costs,pnl,lasts,highest,lowhest,to_char(ctime,'YYYY-MM-DD HH24:MI:SS') 
              from stop_profit_log spl order by ctime desc limit 40;
                 """
         else:
