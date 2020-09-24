@@ -22,7 +22,7 @@
 
 安装postgresql,这个自行搜索安装。注意要记录数据库登录密码，然后还要建一个数据库，记录好数据库名，一会安装要用
 
-安装redis，启动
+安装redis，下载链接：https://github.com/tporadowski/redis/releases，安装好后启动
 
 到这，准备工作做好。在项目目录C:\wrobot\下执行python3 install.py  然后在浏览器打开http://127.0.0.1:5001/ 
 
