@@ -7,14 +7,14 @@ import traceback
 import time
 import random
 from basic.JD_TOOL import robot_bugerror
-from basic.DB_TOOL import DB_pg
+from basic.DB_TOOL import DB_pg3
 from dbconfig import scott, tiger, host, port, dbname
 from function_scheduling_distributed_framework import patch_frame_config,task_deco
 patch_frame_config(REDIS_HOST='127.0.0.1',REDIS_PASSWORD='',REDIS_PORT=6379,REDIS_DB=7)
 
 try:
     link =[host,port, dbname,scott, tiger]
-    db = DB_pg(link)
+    db = DB_pg3(link)
 except:
     raise NameError('db link error')
 
