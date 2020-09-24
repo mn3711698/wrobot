@@ -14,7 +14,6 @@ psycopg2-binary
 sqlalchemy
 gevent
 pandas
-pycrypto
 rsa
 python-socketio
 websockets==6.0
