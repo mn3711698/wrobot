@@ -22,7 +22,7 @@
 
 安装postgresql,这个自行搜索安装。注意要记录数据库登录密码，然后还要建一个数据库，记录好数据库名，一会安装要用
 
-安装redis，下载链接：https://github.com/tporadowski/redis/releases，安装好后启动
+安装redis，下载链接：https://github.com/tporadowski/redis/releases，建议下载msi安装包，会有服务启动，这样方便。安装好后启动
 
 到这，准备工作做好。在项目目录C:\wrobot\下执行python3 install.py  然后在浏览器打开http://127.0.0.1:5001/ 
 
@@ -42,7 +42,7 @@
 
 到此，所有都运行好了。不用管，相关持仓及订单信息请看OKEX的网页或者APP对应的交易对下的数据。
 
-如果后续有更新代码，可以直接git下载就好了。下载好后，关掉cdm窗口，重新打开窗口执行python3 run_admin.py，python3 run_task.py，python3 run_robot.py就好了，注意要在项目目录下运行哦。
+如果后续有更新代码，可以直接git下载就好了。下载好后，关掉cdm窗口，重新打开窗口执行python3 run_admin.py，python3 run_task.py，python3 run_robot.py就好了，现在增加了三个批处理，可以直接运行。注意要在项目目录下运行哦。
 
 如在使用过程中，有问题请联系下方QQ
 
