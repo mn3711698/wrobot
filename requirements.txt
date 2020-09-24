@@ -10,6 +10,7 @@ pycryptodome
 jsonschema
 pyjwt
 redis
+pywin32
 psycopg2-binary
 sqlalchemy
 gevent
