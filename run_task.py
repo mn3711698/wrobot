@@ -6,9 +6,17 @@
 import traceback
 import time
 import random
-from basic.JD_TOOL import db,robot_bugerror
+from basic.JD_TOOL import robot_bugerror
+from basic.DB_TOOL import DB_pg
+from dbconfig import scott, tiger, host, port, dbname
 from function_scheduling_distributed_framework import patch_frame_config,task_deco
 patch_frame_config(REDIS_HOST='127.0.0.1',REDIS_PASSWORD='',REDIS_PORT=6379,REDIS_DB=7)
+
+try:
+    link =[host,port, dbname,scott, tiger]
+    db = DB_pg(link)
+except:
+    raise NameError('db link error')
 
 
 def get_random_no(E_R=2, T=''):

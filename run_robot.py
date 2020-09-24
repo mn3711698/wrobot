@@ -6,8 +6,15 @@ from gevent import monkey
 monkey.patch_all()
 from robot.trade_future import FutureTrade
 from robot.trade_swap import SwapTrade
-from basic.JD_TOOL import robot_bugerror,db,md5code
+from basic.JD_TOOL import robot_bugerror,md5code
 from run_task import update_status
+from basic.DB_TOOL import DB_pg
+from dbconfig import scott, tiger, host, port, dbname
+try:
+    link =[host,port, dbname,scott, tiger]
+    db = DB_pg(link)
+except:
+    raise NameError('db link error')
 
 class RunTrade():
 
