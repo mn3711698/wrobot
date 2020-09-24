@@ -198,7 +198,7 @@ def remark_to_positions_save(stop_pnl,pnl_num,stop_kx,kx_num,pt,parameters):
                 remark += """,开仓比回撤止盈,(float(self.h_last)-longcost)/longcost:%s>self.pnl_num:%s
                                     """ % ((float(h_last) - longcost) / longcost, float(pnl_num))
 
-            elif str(stop_pnl) == '5':
+            elif str(stop_pnl) == '5' and float(h_last) != longcost:
                 if last > float(h_last):
                     remark += """,价格比止盈,(last-longcost)/(float(self.h_last)-longcost):%s>self.pnl_num:%s
                                 """ % ((last - longcost) / (float(h_last) - longcost), float(pnl_num))
@@ -329,7 +329,7 @@ def remark_to_positions_save(stop_pnl,pnl_num,stop_kx,kx_num,pt,parameters):
                         ,开仓比回撤止盈：(shortcost-float(self.h_last))/shortcost:%s > float(self.pnl_num):%s
                         """ % ((float(h_shortpnl) - longpnl) / float(h_shortpnl), float(pnl_num))
 
-            elif str(stop_pnl) == '5':
+            elif str(stop_pnl) == '5' and float(l_last) != shortcost:
                 if last < float(h_last):
                     remark += """
                     ,价格比止盈：(shortcost-last)/(shortcost-float(self.l_last)):%s > float(self.pnl_num):%s
