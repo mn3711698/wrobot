@@ -9,7 +9,8 @@ import random
 from basic.JD_TOOL import robot_bugerror
 from basic.DB_TOOL import DB_pg3
 from dbconfig import scott, tiger, host, port, dbname
-from function_scheduling_distributed_framework import patch_frame_config,task_deco
+from moment.MTOOL import GetData
+from function_scheduling_distributed_framework import patch_frame_config,task_deco,fsdf_background_scheduler, timing_publish_deco
 patch_frame_config(REDIS_HOST='127.0.0.1',REDIS_PASSWORD='',REDIS_PORT=6379,REDIS_DB=7)
 
 try:
@@ -213,9 +214,28 @@ def client_oid_update(us_id,client_oid,usr_id,symbol):
         robot_bugerror(traceback, ctype='client_oid_update')
     return
 
+@task_deco('gsc',log_level=50,is_print_detail_exception=False,create_logger_file=False,broker_kind=2)
+def get_symbol_check():
+    try:
+        sql = """select 
+                    t_instrument_id,tp_okexs
+                    from user_strategy where coalesce(del_flag,0)=0 and coalesce(status,0) not in (0,5)
+                    """
+        l, t = db.select(sql)
+        if t > 0:
+            for i in l:
+                symbol, time_period=i
+                GetData(symbol,time_period).signal_chekc()
+
+    except:
+        robot_bugerror(traceback, ctype='get_symbol_check')
+    return
+
 if __name__ == '__main__':
+    fsdf_background_scheduler.add_job(timing_publish_deco(get_symbol_check), 'interval', id='timing10s', seconds=10)
 
-
+    # 启动定时
+    fsdf_background_scheduler.start()
     ################################# 日志任务
     printlog.consume()#策略运行日志
     trading_log.consume()#策略运行日志
@@ -228,4 +248,5 @@ if __name__ == '__main__':
     update_earnings_price.consume()#更新收益与价格记录
     client_oid_update.consume()#
     ###############
+    get_symbol_check.consume()  #
 

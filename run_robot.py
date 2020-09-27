@@ -88,7 +88,7 @@ if __name__ == "__main__":
             l, t = db.select(sql, [md5code, md5code, md5code])
             if t>0:
                 gevent.joinall([gevent.spawn(fetch, x) for x in l])
-            time.sleep(10)
+            time.sleep(2)
     except:
         robot_bugerror(traceback,'begin_user_strategy_error')
 
