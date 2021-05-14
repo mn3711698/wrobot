@@ -1,5 +1,7 @@
-# wrobot(只支持windows系统,linux另有项目)
+# wrobot(只支持windows系统,linux另有项目https://github.com/mn3711698/singlecoin)
 
+
+# 本项目不再维护，后续主要维护高胜率的项目>> https://github.com/mn3711698/singlecoin 
 ## 本项目只是提供代码，不对使用者因使用本代码实际产生的盈亏负责，毕竟赚了钱也没分给我，亏了钱也只能自己扛
 
 ## 提供多级动态止盈就是所谓的追踪止盈、回撤止盈，提供6级，需要自行计算止盈的数值
